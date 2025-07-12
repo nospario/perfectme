@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker-compose:*)",
+      "Bash(curl:*)",
+      "Bash(open:*)",
+      "Bash(docker exec:*)",
+      "Bash(node:*)",
+      "Bash(grep:*)",
+      "Bash(rm:*)",
+      "Bash(docker logs:*)",
+      "Bash(# Add tasks to the 2025-07-08 task list and close it\ndocker exec perfectme-db mysql -u root -ppassword perfectme -e \"\"\nINSERT INTO tasks (task_list_id, title, description, percentage, position) VALUES \n(11, ''Morning Exercise'', ''Go for a 30-minute run'', 35.00, 1),\n(11, ''Read Book'', ''Read 20 pages of current book'', 28.33, 2),\n(11, ''Work on Project'', ''Complete feature implementation'', 21.67, 3),\n(11, ''Call Family'', ''Weekly family check-in call'', 15.00, 4);\n\nUPDATE task_lists SET is_closed = 1 WHERE id = 11;\n\"\")"
+    ],
+    "deny": []
+  }
+}
