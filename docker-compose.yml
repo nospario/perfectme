@@ -5,15 +5,13 @@ services:
     image: mysql:8.0
     container_name: perfectme-db
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: perfectme
-      MYSQL_USER: perfectme
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "3306:3306"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 30s
@@ -24,13 +22,13 @@ services:
     build: ./backend
     container_name: perfectme-backend
     environment:
-      DB_HOST: db
-      DB_USER: root
-      DB_PASSWORD: password
-      DB_NAME: perfectme
-      JWT_SECRET: your-super-secret-jwt-key-here-change-in-production
-      PORT: 3001
-      FRONTEND_URL: http://localhost:3000
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      PORT: ${PORT}
+      FRONTEND_URL: ${FRONTEND_URL}
     ports:
       - "3001:3001"
     depends_on:
@@ -48,7 +46,7 @@ services:
     depends_on:
       - backend
     environment:
-      - REACT_APP_API_URL=http://localhost:3001
+      - REACT_APP_API_URL=${REACT_APP_API_URL}
 
 volumes:
   mysql_data:
