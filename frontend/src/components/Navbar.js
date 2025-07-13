@@ -1,15 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
+
+  const handleNavCollapse = () => {
+    console.log('Toggle clicked, current state:', isNavCollapsed);
+    setIsNavCollapsed(!isNavCollapsed);
+    console.log('New state should be:', !isNavCollapsed);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      if (window.innerWidth >= 992) {
+        setIsNavCollapsed(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -21,13 +41,17 @@ const Navbar = () => {
         <button 
           className="navbar-toggler" 
           type="button" 
-          data-bs-toggle="collapse" 
-          data-bs-target="#navbarNav"
+          onClick={handleNavCollapse}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
         
-        <div className="collapse navbar-collapse" id="navbarNav">
+        <div 
+          className={`collapse navbar-collapse ${!isNavCollapsed ? 'show' : ''}`}
+          id="navbarNav"
+        >
+          {/* Debug info */}
+          {console.log('Rendering with isNavCollapsed:', isNavCollapsed, 'classes:', `collapse navbar-collapse ${!isNavCollapsed ? 'show' : ''}`)}
           <ul className="navbar-nav me-auto">
             {user && (
               <>
